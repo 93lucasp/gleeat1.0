@@ -4,6 +4,8 @@ import Home from './components/Home.vue'
 import City from './components/Meals.vue'
 import App from './App.vue'
 
+import swal from 'sweetalert';
+
 import { routes } from './routes'
 import { store } from './store/store.js'
 

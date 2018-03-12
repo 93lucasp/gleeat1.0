@@ -1,10 +1,10 @@
 <template>
   <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-            <a class="navbar-brand" href="/">Logo</a>
-            <div class="text-right" id="navbarNavDropdown">
-                <ul class="navbar-nav">
+        <nav class="navBar d-flex align-items-center">
+            <div class="container d-flex align-items-center justify-content-between">
+            <a class="navbar-brand" href="/"><img src="../../assets/logo.jpg" class="logo"></a>
+            
+                <ul class="d-flex">
                     <li class="nav-item" v-if="!currentUser">
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalLong">Login</a>
                     </li>
@@ -17,9 +17,7 @@
                     <li class="nav-item" v-if="currentUser">
                        <a class="nav-link" href="#" @click.prevent="signOut">Signout</a>
                     </li>
-                   
                 </ul>
-                </div>
             </div>
         </nav>
         <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -51,20 +49,24 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <label>Nome</label>
-                                <input type="text" class="form-control" id="nameS" placeholder="enter name">
+                                <label>Name</label>
+                                <input type="text" class="form-control" id="signupName" placeholder="enter name" required>
                             </div>
                             <div class="form-group">
-                                <label>Cognome</label>
-                                <input type="text" class="form-control" id="cognomeS" placeholder="enter surname">
+                                <label>Surname</label>
+                                <input type="text" class="form-control" id="signupSurname" placeholder="enter surname" required>
                             </div>
                             <div class="form-group">
-                                <label>email</label>
-                                <input type="email" class="form-control" id="emailS" placeholder="enter email">
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="signupEmail" placeholder="enter email" required>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" class="form-control" id="passwordS">
+                                <input type="password" class="form-control" id="signupPassword1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password confermation</label>
+                                <input type="password" class="form-control" id="signupPassword2" required>
                             </div>
                         </form>
                     </div>
@@ -104,9 +106,27 @@ export default {
           var errorCode = error.code;
           var errorMessage = error.message;
           if (errorCode === "auth/wrong-password") {
-            alert("Wrong password.");
+            swal({
+              title: "Wrong password!",
+              text: "Your password is wrong, try again!",
+              icon: "error",
+              button: "Ok"
+            });
+          } else if (errorCode === "auth/user-not-found") {
+            swal({
+              title: "Wrong email!",
+              text: "Your email is wrong, try again!",
+              icon: "error",
+              button: "Ok"
+            });
           } else {
-            alert(errorMessage);
+            swal({
+              title: "Something went wrong!",
+              text:
+                "Try again later, if you will still haave problem contact us!",
+              icon: "error",
+              button: "Ok"
+            });
           }
           console.log(error);
         });
@@ -159,41 +179,50 @@ export default {
         });
     },
     signUp() {
-      var surname = document.getElementById("cognomeS").value;
-      var name = document.getElementById("nameS").value;
-      var email = document.getElementById("emailS").value;
-      var password = document.getElementById("passwordS").value;
-
-      Firebase.auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(
-          function(user) {
-            
-            user
-              .updateProfile({
-                displayName: name + " " + surname
-              })
-              .then(
-                function() {
-                  var userInfo = {
-                    name: user.displayName,
-                    email: user.email,
-                    social: false
-                  };
-                  dbUsersRef.child(user.uid).set(userInfo);
-                },
-                function(error) {
-                  console.log(error);
-                }
-              );
-          },
-          function(error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.error(errorCode);
-            console.error(errorMessage);
-          }
-        );
+      var surname = document.getElementById("signupSurname").value;
+      var name = document.getElementById("signupName").value;
+      var email = document.getElementById("signupEmail").value;
+      var password1 = document.getElementById("signupPassword1").value;
+      var password2 = document.getElementById("signupPassword2").value;
+      if (password1 === password2) {
+        Firebase.auth()
+          .createUserWithEmailAndPassword(email, password1)
+          .then(
+            function(user) {
+              user
+                .updateProfile({
+                  displayName: name + " " + surname
+                })
+                .then(
+                  function() {
+                    var userInfo = {
+                      name: user.displayName,
+                      email: user.email,
+                      social: false
+                    };
+                    dbUsersRef.child(user.uid).set(userInfo);
+                  },
+                  function(error) {
+                    console.log(error);
+                  }
+                );
+            },
+            function(error) {
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              console.error(errorCode);
+              console.error(errorMessage);
+            }
+          );
+      } else {
+        swal({
+          title: "Passwords don't match!",
+          text:
+            "The passwords don't corrispond, you need to insert the same password",
+          icon: "error",
+          button: "Ok"
+        });
+      }
     },
     signOut() {
       Firebase.auth()
@@ -212,3 +241,21 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.navBar {
+  background-color: #fff;
+  .logo {
+    width: 150px;
+  }
+  ul {
+    margin: 0;
+
+    li {
+      list-style: none;
+      a {
+       color: #FDB52B;
+      }
+    }
+  }
+}
+</style>

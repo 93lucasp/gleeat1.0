@@ -1,15 +1,34 @@
 <template>
-  <div>
-      {{currentUserId}}
-      <ul class="listMeals">
-          <li v-if="currentUser">
-            <a href="#" class="" data-toggle="modal" data-target="#exampleModal"> Create Meal </a>
-        </li>
-        <li v-for="meal in getMeals">
-              {{meal.title}}
-        </li>
-        
-      </ul>
+  <div style="min-height: 100vh">
+      <div class="container">
+          <div class="d-flex align-items-center justify-content-between">
+            <h2>Meals</h2>
+            <a href="#" class="" data-toggle="modal" data-target="#exampleModal" v-if="currentUser"> Create Meal </a>
+          </div>
+      </div>
+      <div class="container">
+        <div class="row">
+            <div class="col-lg-4" v-for="meal in getMeals">
+                <div class="meal">
+                    <h4 class="meal__title">
+                        {{meal.title}}
+                    </h4>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <p class="meal__name">{{meal.name}}</p>
+                        <span class="meal__gender"> {{meal.gender}}</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <p class="meal__county">{{meal.country}}</p>
+                        <span class="meal__language"> {{meal.language}}</span>
+                    </div>
+                    <div class="meal__footer">
+                        <a :href="'skype:'+ meal.skype +'?call'">Call</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+      </div>
       
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -60,7 +79,7 @@ export default {
     return {
       meal: {
         userId: this.$store.getters.currentUserId,
-        name: "",
+        name: this.$store.getters.currentUserName,
         country: "",
         language: "",
         title: "",
@@ -73,19 +92,20 @@ export default {
   methods: {
     addNewMeal() {
       dbMealsRef.push(this.meal);
-      dbUsersRef.child(this.$store.getters.currentUserId).child("meals").push(this.meal);
+      dbUsersRef
+        .child(this.$store.getters.currentUserId)
+        .child("meals")
+        .push(this.meal);
     }
   },
   computed: {
     ...mapGetters(["getMeals"]),
     currentUser() {
-        
-        return this.$store.getters.currentUser;
+      return this.$store.getters.currentUser;
     },
     currentUserId() {
-        
-        return this.$store.getters.currentUserId;
-    }
+      return this.$store.getters.currentUserId;
+    },
   },
   created() {
     //   var name = this.$store.getters.currentUser.displayName.substr(0, codeLine.indexOf(" "));
@@ -95,7 +115,12 @@ export default {
 };
 </script>
 <style lang="scss">
-
+    .meal {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 2em;
+        padding: 10px;
+    }
 </style>
 
 

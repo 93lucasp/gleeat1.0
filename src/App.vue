@@ -2,12 +2,11 @@
   <div id="app">
     
       <vue-navBar></vue-navBar>
-     <div class="container">
+     
       <router-view></router-view>
-    </div>
-     <div class="container">
+  
       <vue-footer></vue-footer>
-    </div>
+
   </div>
 </template>
 
@@ -37,4 +36,25 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+  .btn-primary {
+    background-color: #FDB52B;
+    outline: none;
+    border: 0;
+    position: relative;
+    z-index: 1;
+    &:hover,&:focus,&:active {
+      background-color: #FDB52B;
+    }
+  }
+  .text-gray {
+    color: #737373;
+  }
+  p,h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+  }
 </style>
