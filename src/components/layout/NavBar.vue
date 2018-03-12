@@ -244,6 +244,7 @@ export default {
 <style lang="scss">
 .navBar {
   background-color: #fff;
+  border-bottom: 1px solid #ddd;
   .logo {
     width: 150px;
   }
