@@ -51,8 +51,8 @@
                             <label>Gender</label>
                             <select class="form-control" v-model="meal.gender">
                                 <option></option>
-                                <option>Male</option>
-                                <option>Female</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -78,8 +78,8 @@ export default {
   data() {
     return {
       meal: {
-        userId: this.$store.getters.currentUserId,
-        name: this.$store.getters.currentUserName,
+        userId: "",
+        name: "",
         country: "",
         language: "",
         title: "",
@@ -91,11 +91,14 @@ export default {
   },
   methods: {
     addNewMeal() {
+      this.meal.userId = this.$store.getters.currentUser.uid;
+      this.meal.name = this.$store.getters.currentUser.displayName;
       dbMealsRef.push(this.meal);
       dbUsersRef
         .child(this.$store.getters.currentUserId)
         .child("meals")
         .push(this.meal);
+
     }
   },
   computed: {
@@ -104,23 +107,25 @@ export default {
       return this.$store.getters.currentUser;
     },
     currentUserId() {
-      return this.$store.getters.currentUserId;
-    },
+        return this.$store.getters.currentUserId
+    }
   },
-  created() {
-    //   var name = this.$store.getters.currentUser.displayName.substr(0, codeLine.indexOf(" "));
-    //   this.meal.name = name;
-    // console.log(name)
-  }
+  created() {}
 };
 </script>
 <style lang="scss">
-    .meal {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-bottom: 2em;
-        padding: 10px;
-    }
+.meal {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 2em;
+  padding: 10px;
+  &__title {
+    padding-bottom: 4px;
+    border-bottom: 2px solid #fdb52b;
+    color: #737373;
+    margin-bottom: 15px;
+  }
+}
 </style>
 
 
