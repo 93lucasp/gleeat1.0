@@ -145,20 +145,30 @@ export default {
         title: "",
         language: "",
         gender: "",
-        skype: "",
+        skype: ""
       },
-      idMeal: ''
+      idMeal: ""
     };
   },
   methods: {
-      checkMeal() {
-          var users = this.$store.getters.getUsers;
-          var currentUserId = this.$store.getters.currentUser.uid;
-          for(var i = 0; i < users.length; i++) {
-              console.log("useer:",users[i]['.key']);
-              console.log("currentUssr:",currentUserId);
-          }
-      },
+    checkMeal() {
+      var users = this.$store.getters.getUsers;
+      var currentUserId = this.$store.getters.currentUser.uid;
+   
+    //   console.log(
+    //     dbUsersRef.child(this.$store.getters.currentUserId).child("meals")
+    //   );
+
+    //   var ref = irebase.database().ref("users/ada");
+       dbUsersRef.child(currentUserId).child("meals").once("value").then(function(snapshot) {
+        var ref = snapshot.val(); // "ada"
+        console.log(ref);
+      });
+      //   for(var i = 0; i < users.length; i++) {
+      //       console.log("useer:",users[i]['.key']);
+      //       console.log("currentUssr:",currentUserId);
+      //   }
+    },
     addNewMeal() {
       this.meal.userId = this.$store.getters.currentUser.uid;
       this.meal.name = this.$store.getters.currentUser.displayName;
@@ -169,25 +179,23 @@ export default {
         .child("meals")
         .set(1);
     },
-    setMealId(id,meal) {
-        delete meal['.key']; 
-        
-        this.idMeal = id;
-        this.meal = meal
-        console.log(this.meal)
-        console.log(this.idMeal)
+    setMealId(id, meal) {
+      delete meal[".key"];
+
+      this.idMeal = id;
+      this.meal = meal;
+      console.log(this.meal);
+      console.log(this.idMeal);
     },
     updateMeal() {
       dbMealsRef.child(this.idMeal).update(this.meal);
     },
     removeMeal(key) {
-        dbUsersRef
+      dbUsersRef
         .child(this.$store.getters.currentUserId)
         .child("meals")
-       .remove();
-      dbMealsRef
-        .child(key)
         .remove();
+      dbMealsRef.child(key).remove();
     },
     popUpNotLogged() {
       swal({
@@ -196,13 +204,12 @@ export default {
         icon: "warning",
         button: "Ok"
       });
-    },
-    
+    }
   },
   computed: {
     ...mapGetters(["getMeals"]),
     users() {
-        return this.$store.getters.getUsers;
+      return this.$store.getters.getUsers;
     },
     currentUser() {
       return this.$store.getters.currentUser;
