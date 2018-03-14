@@ -14,6 +14,7 @@
 import NavBar from  './components/layout/NavBar.vue'
 import Footer from  './components/layout/Footer.vue'
 import { dbMealsRef} from  './firebaseConfig'
+import { dbUsersRef} from  './firebaseConfig'
 
 export default {
   name: 'app',
@@ -29,6 +30,7 @@ export default {
   },
   created() {
     this.$store.dispatch('setMealsRef', dbMealsRef);
+    this.$store.dispatch('setUsersRef', dbUsersRef);
 
 
   }

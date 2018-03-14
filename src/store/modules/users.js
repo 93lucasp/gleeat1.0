@@ -1,12 +1,15 @@
+import { firebaseAction } from 'vuexfire'
 const state = {
     currentUser: null,
     currentUserId: null,
-    currentUserName: null
+    currentUserName: null,
+    users: []
 }
 const getters = {
     currentUser: state => state.currentUser,
     currentUserId: state => state.currentUserId,
-    currentUserName: state => state.currentUserName
+    currentUserName: state => state.currentUserName,
+    getUsers: state => state.users
 
 }
 const mutations = {
@@ -24,9 +27,13 @@ const mutations = {
 
 }
 const actions = {
+    setUsersRef: firebaseAction(({ bindFirebaseRef }, { ref }) => {
+        bindFirebaseRef('users', ref)
+    }),
     setUser(context, user) {
         context.commit('userStatus', user)
     }
+
 }
 
 export default {

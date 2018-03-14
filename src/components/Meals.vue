@@ -1,9 +1,10 @@
 <template>
   <div style="min-height: 100vh" class="py-5">
+      
       <div class="container">
           <div class="d-flex align-items-center justify-content-between mb-4">
             <h2 >Meals</h2>
-            <a href="#" class="" data-toggle="modal" data-target="#exampleModal" v-if="currentUser"> Create Meal </a>
+            <a href="#" class="" data-toggle="modal" data-target="#exampleModal" v-if="currentUser" @click="checkMeal()"> Create Meal </a>
           </div>
       </div>
       <div class="container">
@@ -144,20 +145,29 @@ export default {
         title: "",
         language: "",
         gender: "",
-        skype: ""
+        skype: "",
       },
       idMeal: ''
     };
   },
   methods: {
+      checkMeal() {
+          var users = this.$store.getters.getUsers;
+          var currentUserId = this.$store.getters.currentUser.uid;
+          for(var i = 0; i < users.length; i++) {
+              console.log("useer:",users[i]['.key']);
+              console.log("currentUssr:",currentUserId);
+          }
+      },
     addNewMeal() {
       this.meal.userId = this.$store.getters.currentUser.uid;
       this.meal.name = this.$store.getters.currentUser.displayName;
       dbMealsRef.push(this.meal);
+
       dbUsersRef
         .child(this.$store.getters.currentUserId)
         .child("meals")
-        .push(this.meal);
+        .set(1);
     },
     setMealId(id,meal) {
         delete meal['.key']; 
@@ -168,18 +178,12 @@ export default {
         console.log(this.idMeal)
     },
     updateMeal() {
-        dbUsersRef
-        .child(this.$store.getters.currentUserId)
-        .child("meals")
-        .child(this.idMeal)
-        .update(this.meal);
       dbMealsRef.child(this.idMeal).update(this.meal);
     },
     removeMeal(key) {
         dbUsersRef
         .child(this.$store.getters.currentUserId)
         .child("meals")
-        .child(this.idMeal)
        .remove();
       dbMealsRef
         .child(key)
@@ -197,6 +201,9 @@ export default {
   },
   computed: {
     ...mapGetters(["getMeals"]),
+    users() {
+        return this.$store.getters.getUsers;
+    },
     currentUser() {
       return this.$store.getters.currentUser;
     },
