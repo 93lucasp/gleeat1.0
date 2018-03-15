@@ -4,7 +4,7 @@
       <div class="container">
           <div class="d-flex align-items-center justify-content-between mb-4">
             <h2 >Meals</h2>
-            <a href="#" class="" data-toggle="modal" data-target="#exampleModal" v-if="currentUser" @click="checkMeal()"> Create Meal </a>
+            <a href="#" class=""  @click="checkMeal()"> Create Meal </a>
           </div>
       </div>
       <div class="container">
@@ -45,9 +45,12 @@
                         <a :href="'skype:'+ meal.skype +'?call'" class="btn btn-primary w-100">Call</a>
                     </div>
                 </div>
-                <div class="options" v-if="currentUser.uid == meal.userId">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal2" @click="setMealId(meal['.key'],meal)">Update</a>
-                    <a href="javascript:void(0)" @click="removeMeal(meal['.key'])">remove</a>
+                <div class="options" v-if="currentUser">
+                    <span v-if="currentUser.uid == meal.userId">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal2" @click="setMealId(meal['.key'],meal)">Update</a>
+                        <a href="javascript:void(0)" @click="removeMeal(meal['.key'])">remove</a>
+                    </span>
+                    
                 </div>
                 
             </div>
@@ -85,7 +88,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="updateMeal()">Create a meal</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="updateMeal()">Update a meal</button>
                 </div>
                 </div>
             </div>
@@ -152,7 +155,6 @@ export default {
   },
   methods: {
     checkMeal() {
-      var users = this.$store.getters.getUsers;
       var currentUserId = this.$store.getters.currentUser.uid;
    
     //   console.log(
@@ -161,8 +163,18 @@ export default {
 
     //   var ref = irebase.database().ref("users/ada");
        dbUsersRef.child(currentUserId).child("meals").once("value").then(function(snapshot) {
-        var ref = snapshot.val(); // "ada"
-        console.log(ref);
+        var meal = snapshot.val(); // "ada"
+        if(meal===1) {
+            swal({
+              title: "You have already an active meal!",
+              text: "Remove the previus meal before to create a new one !",
+              icon: "error",
+              button: "Ok"
+            });
+        }
+        else {
+            $('#exampleModal').modal('show')
+        }
       });
       //   for(var i = 0; i < users.length; i++) {
       //       console.log("useer:",users[i]['.key']);
