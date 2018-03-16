@@ -4,7 +4,7 @@
       <div class="container">
           <div class="d-flex align-items-center justify-content-between mb-4">
             <h2 >Meals</h2>
-            <a href="#" class=""  @click="checkMeal()"> Create Meal </a>
+            <a href="#" class=""  @click="checkMeal()" v-if="currentUser"> Create Meal </a>
           </div>
       </div>
       <div class="container">
@@ -148,7 +148,8 @@ export default {
         title: "",
         language: "",
         gender: "",
-        skype: ""
+        skype: "",
+        createdAt: ""
       },
       idMeal: ""
     };
@@ -156,26 +157,29 @@ export default {
   methods: {
     checkMeal() {
       var currentUserId = this.$store.getters.currentUser.uid;
-   
-    //   console.log(
-    //     dbUsersRef.child(this.$store.getters.currentUserId).child("meals")
-    //   );
 
-    //   var ref = irebase.database().ref("users/ada");
-       dbUsersRef.child(currentUserId).child("meals").once("value").then(function(snapshot) {
-        var meal = snapshot.val(); // "ada"
-        if(meal===1) {
+      //   console.log(
+      //     dbUsersRef.child(this.$store.getters.currentUserId).child("meals")
+      //   );
+
+      //   var ref = irebase.database().ref("users/ada");
+      dbUsersRef
+        .child(currentUserId)
+        .child("meals")
+        .once("value")
+        .then(function(snapshot) {
+          var meal = snapshot.val(); // "ada"
+          if (meal === 1) {
             swal({
               title: "You have already an active meal!",
               text: "Remove the previus meal before to create a new one !",
               icon: "error",
               button: "Ok"
             });
-        }
-        else {
-            $('#exampleModal').modal('show')
-        }
-      });
+          } else {
+            $("#exampleModal").modal("show");
+          }
+        });
       //   for(var i = 0; i < users.length; i++) {
       //       console.log("useer:",users[i]['.key']);
       //       console.log("currentUssr:",currentUserId);
@@ -184,6 +188,9 @@ export default {
     addNewMeal() {
       this.meal.userId = this.$store.getters.currentUser.uid;
       this.meal.name = this.$store.getters.currentUser.displayName;
+      var date = new Date();
+      this.meal.createdAt = new Date().toISOString();
+      console.log(typeof date);
       dbMealsRef.push(this.meal);
 
       dbUsersRef
@@ -230,7 +237,27 @@ export default {
       return this.$store.getters.currentUserId;
     }
   },
-  created() {}
+  beforeMount() {
+    var newDate = new Date().toISOString();
+    var threeHours = (60 * 10 * 1);
+
+    dbMealsRef.once("value").then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        var childData = childSnapshot.val();
+
+        if (new Date(newDate) - new Date(childData.createdAt) > threeHours) {
+          dbMealsRef.child(key).remove();
+          dbUsersRef
+        .child(childData.userId)
+        .child("meals")
+        .remove();
+        } else {
+          console.log("false");
+        }
+      });
+    });
+  }
 };
 </script>
 <style lang="scss">

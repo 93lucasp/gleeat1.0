@@ -4,20 +4,22 @@
             <div class="container d-flex align-items-center justify-content-between">
             <a class="navbar-brand" href="/"><img src="../../assets/logo.jpg" class="logo"></a>
             
-                <ul class="d-flex">
-                    <li class="nav-item" v-if="!currentUser">
+                <ul class="d-flex" v-if="!currentUser">
+                    <li class="nav-item" >
                         <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalLong">Login</a>
                     </li>
-                    <li class="nav-item" v-if="!currentUser">
+                    <li class="nav-item">
                        <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalS">Signup</a>
                     </li>
-                    <li class="nav-item" v-if="currentUser">
-                       <a class="nav-link" href="#">{{currentUser.displayName}}</a>
-                    </li>
-                    <li class="nav-item" v-if="currentUser">
-                       <a class="nav-link" href="#" @click.prevent="signOut">Signout</a>
-                    </li>
-                </ul>
+                  </ul>
+                  <ul class="d-flex" v-else>
+                      <li class="nav-item" >
+                        <a class="nav-link" href="#">{{currentUser.displayName}}</a>
+                      </li>
+                      <li class="nav-item" >
+                        <a class="nav-link" href="#" @click.prevent="signOut">Signout</a>
+                      </li>
+                  </ul>
             </div>
         </nav>
         <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -254,7 +256,7 @@ export default {
     li {
       list-style: none;
       a {
-       color: #FDB52B;
+        color: #fdb52b;
       }
     }
   }
