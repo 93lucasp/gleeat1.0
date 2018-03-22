@@ -18,22 +18,23 @@
                             <a href="javascript:void(0)" class="openOptions" @click="optionsOpen = !optionsOpen" v-show="!optionsOpen"><i class="fas fa-chevron-up"></i></a>
                         </div>
                     </div>
-                    
-                    <div v-show="optionsOpen">
-                        <div class="meal__options" v-if="currentUser.uid == meal.userId">
-                            <div  class=" d-flex align-items-center justify-content-between">
+                    <transition name="fade">
+                        <div v-show="optionsOpen">
+                            <div class="meal__options" v-if="currentUser.uid == meal.userId">
+                                <div  class=" d-flex align-items-center justify-content-between">
+                                    
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal2" @click="setMealId(meal['.key'],meal)" class="text-primary">Update</a>
+                                    <a href="javascript:void(0)" @click="removeMeal(meal['.key'])" class="text-danger" >remove</a>
+                                    <label class="switch" >
+                                        <input type="checkbox" checked v-if="meal.status==true" @change=" changeStatus(false,meal['.key'])">
+                                        <input type="checkbox" checked v-else @change=" changeStatus(true,meal['.key'])">
+                                        <span class="slider round"></span>
+                                    </label>
                                 
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal2" @click="setMealId(meal['.key'],meal)" class="text-white">Update</a>
-                                <a href="javascript:void(0)" @click="removeMeal(meal['.key'])" class="text-danger" >remove</a>
-                                <label class="switch" >
-                                    <input type="checkbox" checked v-if="meal.status==true" @change=" changeStatus(false,meal['.key'])">
-                                    <input type="checkbox" checked v-else @change=" changeStatus(true,meal['.key'])">
-                                    <span class="slider round"></span>
-                                </label>
-                               
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        </transition>
                     <div class="d-flex justify-content-between">
                         <h5 class="meal__title">{{meal.title}}</h5>
                         <div class="status" :class="{ 'bg-green': meal.status, 'bg-red': !meal.status}"></div> 
@@ -319,7 +320,7 @@ export default {
     right: 0;
     padding: 10px;
     z-index: 1;
-    background-color:#fdc04e;
+    background-color: #f2f2f2;
     border-radius: 4px;
   }
   .openOptions {
@@ -390,6 +391,12 @@ export default {
   width: 25px;
   height: 25px;
   border-radius: 100%;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
 
