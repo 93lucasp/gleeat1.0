@@ -20,3 +20,13 @@ new Vue({
     store,
     render: h => h(App)
 })
+
+var _layout = function() {
+    return {
+        init: function() {
+
+        },
+    }
+}();
+
+_layout.init();

@@ -1,27 +1,39 @@
 <template>
   <div style="min-height: 100vh" class="py-5">
       
+
       <div class="container">
           <div class="d-flex align-items-center justify-content-between mb-4">
-            <h2 >Meals</h2>
-            <a href="#" class=""  @click="checkMeal()" v-if="currentUser"> Create Meal </a>
+            <h2>Meals</h2>
+            <a href="javascript:void(0)"  @click="checkMeal()" v-if="currentUser"> Create Meal </a>
           </div>
       </div>
       <div class="container">
         <div class="row">
             <div class="col-lg-4" v-for="meal in getMeals">
-                <div class="options" v-if="currentUser">
-                    <div v-if="currentUser.uid == meal.userId" class="d-flex align-items-center justify-content-between">
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal2" @click="setMealId(meal['.key'],meal)" class="text-primary">Update</a>
-                        <a href="javascript:void(0)" @click="removeMeal(meal['.key'])" class="text-danger">remove</a>
-                        <label class="switch">
-                            <input type="checkbox" checked v-if="meal.status==true" @change=" test(false,meal['.key'])">
-                            <input type="checkbox" checked v-else @change=" test(true,meal['.key'])">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
                 <div class="meal">
+                    <div v-if="currentUser">
+                        <div v-if="currentUser.uid == meal.userId">
+                            <a href="javascript:void(0)" class="openOptions" @click="optionsOpen = !optionsOpen" v-show="optionsOpen"><i class="fas fa-chevron-down"></i></a>
+                            <a href="javascript:void(0)" class="openOptions" @click="optionsOpen = !optionsOpen" v-show="!optionsOpen"><i class="fas fa-chevron-up"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div v-show="optionsOpen">
+                        <div class="meal__options" v-if="currentUser.uid == meal.userId">
+                            <div  class=" d-flex align-items-center justify-content-between">
+                                
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal2" @click="setMealId(meal['.key'],meal)" class="text-white">Update</a>
+                                <a href="javascript:void(0)" @click="removeMeal(meal['.key'])" class="text-danger" >remove</a>
+                                <label class="switch" >
+                                    <input type="checkbox" checked v-if="meal.status==true" @change=" changeStatus(false,meal['.key'])">
+                                    <input type="checkbox" checked v-else @change=" changeStatus(true,meal['.key'])">
+                                    <span class="slider round"></span>
+                                </label>
+                               
+                            </div>
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-between">
                         <h5 class="meal__title">{{meal.title}}</h5>
                         <div class="status" :class="{ 'bg-green': meal.status, 'bg-red': !meal.status}"></div> 
@@ -155,11 +167,15 @@ export default {
         createdAt: "",
         status: ""
       },
-      idMeal: ""
+      idMeal: "",
+      optionsOpen: false
     };
   },
   methods: {
-    test(val, id) {
+    openOptions(el) {
+      console.log(el.nextElementSibling());
+    },
+    changeStatus(val, id) {
       this.meal.status = val;
       this.idMeal = id;
       console.log(val);
@@ -280,10 +296,12 @@ export default {
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-bottom: 2em;
-  padding: 10px;
+  margin-top: 1em;
+  padding: 20px 10px;
   color: #737373;
   font-size: 13px;
   font-weight: 500;
+  position: relative;
   &__title {
     padding-bottom: 4px;
     border-bottom: 2px solid #fdb52b;
@@ -294,10 +312,30 @@ export default {
     font-weight: 300;
     color: #fdb52b;
   }
-}
-.options {
+  &__options {
+    position: absolute;
+    top: -42px;
+    left: 0;
+    right: 0;
     padding: 10px;
+    z-index: 1;
+    background-color:#fdc04e;
+    border-radius: 4px;
+  }
+  .openOptions {
+    background: #fdb52b;
+    color: #fff;
+    width: 20px;
+    height: 16px;
+    border-radius: 0 0 4px 4px;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    text-align: center;
+    z-index: 3;
+  }
 }
+
 .switch {
   position: relative;
   display: inline-block;
