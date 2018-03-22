@@ -10,19 +10,22 @@
       <div class="container">
         <div class="row">
             <div class="col-lg-4" v-for="meal in getMeals">
+                <div class="options" v-if="currentUser">
+                    <div v-if="currentUser.uid == meal.userId" class="d-flex align-items-center justify-content-between">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal2" @click="setMealId(meal['.key'],meal)" class="text-primary">Update</a>
+                        <a href="javascript:void(0)" @click="removeMeal(meal['.key'])" class="text-danger">remove</a>
+                        <label class="switch">
+                            <input type="checkbox" checked v-if="meal.status==true" @change=" test(false,meal['.key'])">
+                            <input type="checkbox" checked v-else @change=" test(true,meal['.key'])">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
                 <div class="meal">
-                    <h5 class="meal__title">
-                       
-                        {{meal.title}}
-                        <!-- {{meal['.key']}} -->
-                        {{meal.status}}
-                    </h5>
-                    <label class="switch">
-
-                        <input type="checkbox" checked v-if="meal.status==1" @change=" test(0,meal['.key'])">
-                        <input type="checkbox" checked v-else @change=" test(1,meal['.key'])">
-                        <span class="slider round"></span>
-                    </label>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="meal__title">{{meal.title}}</h5>
+                        <div class="status" :class="{ 'bg-green': meal.status, 'bg-red': !meal.status}"></div> 
+                    </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div>
                             <p class="meal__label">Name</p>
@@ -32,7 +35,6 @@
                             <p class="meal__label">Gender</p>
                             <p class="meal__gender"> {{meal.gender}}</p>
                         </div>
-                        
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <div>
@@ -52,13 +54,7 @@
                         <a :href="'skype:'+ meal.skype +'?call'" class="btn btn-primary w-100">Call</a>
                     </div>
                 </div>
-                <div class="options" v-if="currentUser">
-                    <span v-if="currentUser.uid == meal.userId">
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal2" @click="setMealId(meal['.key'],meal)">Update</a>
-                        <a href="javascript:void(0)" @click="removeMeal(meal['.key'])">remove</a>
-                    </span>
-                    
-                </div>
+                
                 
             </div>
         </div>
@@ -163,13 +159,16 @@ export default {
     };
   },
   methods: {
-      test(val,id)  {
-          this.meal.status = val;
-          this.idMeal = id;
-          console.log(val)
-          console.log( id)
-          dbMealsRef.child(this.idMeal).child('status').set(this.meal.status);
-      },
+    test(val, id) {
+      this.meal.status = val;
+      this.idMeal = id;
+      console.log(val);
+      console.log(id);
+      dbMealsRef
+        .child(this.idMeal)
+        .child("status")
+        .set(this.meal.status);
+    },
     checkMeal() {
       var currentUserId = this.$store.getters.currentUser.uid;
 
@@ -203,7 +202,7 @@ export default {
     addNewMeal() {
       this.meal.userId = this.$store.getters.currentUser.uid;
       this.meal.name = this.$store.getters.currentUser.displayName;
-      this.meal.status = 1;
+      this.meal.status = true;
       var date = new Date();
       this.meal.createdAt = new Date().toISOString();
       console.log(typeof date);
@@ -296,60 +295,63 @@ export default {
     color: #fdb52b;
   }
 }
+.options {
+    padding: 10px;
+}
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 40px;
+  height: 18px;
+  margin: 0;
+  input {
+    display: none;
+    &:checked,
+    &:focus {
+      + .slider {
+        background-color: green;
+        &:before {
+          -webkit-transform: translateX(19px);
+          -ms-transform: translateX(19px);
+          transform: translateX(19px);
+        }
+      }
+    }
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: red;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    &.round {
+      border-radius: 34px;
+      &:before {
+        border-radius: 50%;
+      }
+    }
+    &:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+
+      bottom: 2px;
+      background-color: white;
+      -webkit-transition: 0.4s;
+      transition: 0.4s;
+    }
+  }
 }
-
-.switch input {display:none;}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
+.status {
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
 }
 </style>
 
