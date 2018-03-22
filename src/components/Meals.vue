@@ -15,7 +15,14 @@
                        
                         {{meal.title}}
                         <!-- {{meal['.key']}} -->
+                        {{meal.status}}
                     </h5>
+                    <label class="switch">
+
+                        <input type="checkbox" checked v-if="meal.status==1" @change=" test(0,meal['.key'])">
+                        <input type="checkbox" checked v-else @change=" test(1,meal['.key'])">
+                        <span class="slider round"></span>
+                    </label>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div>
                             <p class="meal__label">Name</p>
@@ -149,12 +156,20 @@ export default {
         language: "",
         gender: "",
         skype: "",
-        createdAt: ""
+        createdAt: "",
+        status: ""
       },
       idMeal: ""
     };
   },
   methods: {
+      test(val,id)  {
+          this.meal.status = val;
+          this.idMeal = id;
+          console.log(val)
+          console.log( id)
+          dbMealsRef.child(this.idMeal).child('status').set(this.meal.status);
+      },
     checkMeal() {
       var currentUserId = this.$store.getters.currentUser.uid;
 
@@ -188,6 +203,7 @@ export default {
     addNewMeal() {
       this.meal.userId = this.$store.getters.currentUser.uid;
       this.meal.name = this.$store.getters.currentUser.displayName;
+      this.meal.status = 1;
       var date = new Date();
       this.meal.createdAt = new Date().toISOString();
       console.log(typeof date);
@@ -239,7 +255,7 @@ export default {
   },
   beforeMount() {
     var newDate = new Date().toISOString();
-    var threeHours = (60 * 10 * 1);
+    var threeHours = 60 * 60 * 3000;
 
     dbMealsRef.once("value").then(function(snapshot) {
       snapshot.forEach(function(childSnapshot) {
@@ -249,9 +265,9 @@ export default {
         if (new Date(newDate) - new Date(childData.createdAt) > threeHours) {
           dbMealsRef.child(key).remove();
           dbUsersRef
-        .child(childData.userId)
-        .child("meals")
-        .remove();
+            .child(childData.userId)
+            .child("meals")
+            .remove();
         } else {
           console.log("false");
         }
@@ -279,6 +295,61 @@ export default {
     font-weight: 300;
     color: #fdb52b;
   }
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 </style>
 
