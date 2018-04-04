@@ -49,8 +49,11 @@ body {
     border: 0;
     position: relative;
     z-index: 1;
+    border-radius: 0;
+    padding: .6rem 1.95rem;
     &:hover,&:focus,&:active {
-      background-color: #FDB52B;
+      background-color: #FDB52B!important;
+      box-shadow: none!important;
     }
   }
   .text-gray {
@@ -66,6 +69,7 @@ body {
     background-color: green
   }
   .text-primary {
+    
     color: #FDB52B!important;
   }
 </style>

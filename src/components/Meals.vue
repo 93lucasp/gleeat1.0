@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <transition name="fade">
-                        <div v-show="optionsOpen">
+                        <div v-show="optionsOpen" v-if="currentUser">
                             <div class="meal__options" v-if="currentUser.uid == meal.userId">
                                 <div  class=" d-flex align-items-center justify-content-between">
                                     

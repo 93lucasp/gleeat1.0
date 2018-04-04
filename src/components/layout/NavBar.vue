@@ -2,7 +2,7 @@
   <header>
         <nav class="navBar d-flex align-items-center">
             <div class="container d-flex align-items-center justify-content-between">
-            <a class="navbar-brand" href="/"><img src="../../assets/logo.jpg" class="logo"></a>
+            <a class="navbar-brand" href="/"><img src="../../assets/logo-full.svg" class="logo"></a>
             
                 <ul class="d-flex" v-if="!currentUser">
                     <li class="nav-item" >
@@ -245,6 +245,8 @@ export default {
 
 <style lang="scss">
 .navBar {
+  padding-top: .5em;
+  padding-bottom: .5em;
   background-color: #fff;
   border-bottom: 1px solid #ddd;
   .logo {
