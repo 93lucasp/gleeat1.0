@@ -28,8 +28,8 @@
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-            <div class="modal-body">
-                <form>
+            <div class="modal-body text-right">
+                <form class="text-left">
                     <div class="form-group">
                         <label>name</label>
                         <input type="email" class="form-control" id="email" placeholder="enter email">
@@ -39,11 +39,15 @@
                         <input type="password" class="form-control" id="password">
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="signIn">Sign in</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginFacebook">Facebook</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginGoogle">Google</button>
+            </div>
+            <div class="text-center">
+              or
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-center">
+                
+                <button type="button" class="btn btn-primary btn-facebook" data-dismiss="modal" @click.prevent="loginFacebook">Facebook</button>
+                <button type="button" class="btn btn-primary btn-google" data-dismiss="modal" @click.prevent="loginGoogle">Google</button>
             </div>
             </div>
         </div>
@@ -51,8 +55,8 @@
     <div class="modal fade" id="exampleModalS" tabindex="-1" role="dialog" aria-labelledby="exampleModalSTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-body">
-                    <form>
+                <div class="modal-body text-right">
+                    <form class="text-left">
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" class="form-control" id="signupName" placeholder="enter name" required>
@@ -74,11 +78,18 @@
                             <input type="password" class="form-control" id="signupPassword2" required>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="signUp">Sign up</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginFacebook">Facebook</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginGoogle">Google</button>
+                   
+                    <div class="text-center">
+                      <p>or</p>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex align-items-center justify-content-center">
+                    
+                      <button type="button" class="btn btn-primary btn-facebook" data-dismiss="modal" @click.prevent="loginFacebook">Facebook</button>
+                      <button type="button" class="btn btn-primary btn-google" data-dismiss="modal" @click.prevent="loginGoogle">Google</button>
+                    
+                    
                 </div>
             </div>
         </div>

@@ -188,11 +188,9 @@ export default {
     },
     checkMeal() {
       var currentUserId = this.$store.getters.currentUser.uid;
-
       //   console.log(
       //     dbUsersRef.child(this.$store.getters.currentUserId).child("meals")
       //   );
-
       //   var ref = irebase.database().ref("users/ada");
       dbUsersRef
         .child(currentUserId)
@@ -200,6 +198,7 @@ export default {
         .once("value")
         .then(function(snapshot) {
           var meal = snapshot.val(); // "ada"
+          console.log(meal)
           if (meal === 1) {
             swal({
               title: "You have already an active meal!",
@@ -211,10 +210,6 @@ export default {
             $("#exampleModal").modal("show");
           }
         });
-      //   for(var i = 0; i < users.length; i++) {
-      //       console.log("useer:",users[i]['.key']);
-      //       console.log("currentUssr:",currentUserId);
-      //   }
     },
     addNewMeal() {
       this.meal.userId = this.$store.getters.currentUser.uid;
@@ -285,7 +280,7 @@ export default {
             .child("meals")
             .remove();
         } else {
-          console.log("false");
+          // console.log("false");
         }
       });
     });

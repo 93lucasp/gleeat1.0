@@ -46,6 +46,9 @@ body {
   height: 100%;
   position: relative;
 }
+a,button {
+  outline: none;
+}
   .btn-primary {
     background-color: #FDB52B;
     outline: none;
@@ -74,5 +77,11 @@ body {
   .text-primary {
     
     color: #FDB52B!important;
+  }
+  .btn-facebook {
+    background-color: #3b5998;
+  }
+  .btn-google {
+    background-color: #CA5B54;
   }
 </style>
