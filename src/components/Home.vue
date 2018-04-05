@@ -49,14 +49,14 @@
                     <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Is Gleeat a free service?
+                        Is gleeat a free service? 
                         </button>
                     </h5>
                     </div>
 
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                     <div class="card-body">
-                        Yes, absolutely! Gleeat has been created for a social goal and for a specific mission!
+                        Yes, absolutely! Gleeat was created as a social project and has specific mission.
                     </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                     </div>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
-                        A meal is a kind of post where you put some information and after everybody if interested could call you.
+                        The meal is a kind of post where you can put some information and after everyone who is  interested can call you.
                     </div>
                     </div>
                 </div>
@@ -78,13 +78,13 @@
                     <div class="card-header" id="headingThree">
                     <h5 class="mb-0">
                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Who can create a meal or make a call?
+                        Who can create a meal and make a call? 
                         </button>
                     </h5>
                     </div>
                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                     <div class="card-body">
-                        Just registered can create a meal and the same is for the call!
+                        Only registered users can creat the meal and the same is for the call. 
                     </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                     </div>
                     <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                     <div class="card-body">
-                        Because it was easy to implement a video call sistem with it. But we are studying and working on create ourown call sistem.
+                        It was easy to implement a video call sistem with Skype. But we are working and doing our best to create our own call sistem.
                     </div>
                     </div>
                 </div>
@@ -106,14 +106,14 @@
                     <div class="card-header" id="headingFive">
                     <h5 class="mb-0">
                         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                        My meal will be only on the platform?
+                        What can I do with my meal? 
                         </button>
                     </h5>
                     </div>
                     <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
                     <div class="card-body">
-                        No you can manage your meal as you prefer (update,delete,put busy status and so on).
-                        Your meal will authomatically removed after 3 hours
+                        You can manage your meal as you prefer (update,delete,put busy status etc.)
+Your meal will authomatically removed in 3 hours.
                     </div>
                     </div>
                 </div>
@@ -127,7 +127,9 @@
                     </div>
                     <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
                     <div class="card-body">
-                        We think that the video call on Gleeat are very targeted and the spirit of the community is to have a nice dinner or lunch with other people. But we can't guarantee you that who will call will be fine, so in case will be your task block on skype the user and report to us the user and we will provide to remove him from the platform.
+                        We believe that video calls on Gleeat have clear purpose: to have a nice dinner or lunch with other people! 
+But we can't guarantee that people who will call, are definitely okay. 
+In case to avoid unfortunate situations we ask you to block such users on Skype and report us. We'll have it cleared up in no time!
                     </div>
                     </div>
                 </div>
@@ -137,11 +139,11 @@
 </div>
 <hr>
 <div class="container py-5 text-gray">
-    <h2 class="mb-4 text-center ">Why to use</h2>
+    <h2 class="mb-4 text-center ">Reasons to use</h2>
     <div class="row">
         <div class="col-lg-5 mx-auto text-center">
-            <p>Studies say that eating together is healthy, so why don't you that in a video call?</p>
-            <p>It's also an opportunity to meet new people!</p>
+            <p>It is believed that eating together is healthy, so why don’t you do that in video call? </p>
+            <p>It is also an opportunity to meet new people, to find new friends all over the world and to practice foreign languages!</p>
         </div>
     </div>
 </div>

@@ -6,6 +6,7 @@
       <router-view></router-view>
   
       <vue-footer></vue-footer>
+      <vue-cookies></vue-cookies>
 
   </div>
 </template>
@@ -13,6 +14,7 @@
 <script>
 import NavBar from  './components/layout/NavBar.vue'
 import Footer from  './components/layout/Footer.vue'
+import CookiesBar from  './components/layout/CookiesBar.vue'
 import { dbMealsRef} from  './firebaseConfig'
 import { dbUsersRef} from  './firebaseConfig'
 
@@ -26,6 +28,7 @@ export default {
   components: {
     'vue-navBar': NavBar,
     'vue-footer': Footer,
+    'vue-cookies': CookiesBar
 
   },
   created() {

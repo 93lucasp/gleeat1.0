@@ -1,85 +1,88 @@
 <template>
   <header>
-        <nav class="navBar d-flex align-items-center">
-            <div class="container d-flex align-items-center justify-content-between">
-            <a class="navbar-brand" href="/"><img src="../../assets/logo-full.svg" class="logo"></a>
-            
-                <ul class="d-flex" v-if="!currentUser">
-                    <li class="nav-item" >
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalLong">Login</a>
-                    </li>
-                    <li class="nav-item">
-                       <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalS">Signup</a>
-                    </li>
-                  </ul>
-                  <ul class="d-flex" v-else>
-                      <li class="nav-item" >
-                        <a class="nav-link" href="#">{{currentUser.displayName}}</a>
-                      </li>
-                      <li class="nav-item" >
-                        <a class="nav-link" href="#" @click.prevent="signOut">Signout</a>
-                      </li>
-                  </ul>
+    <nav class="navbar navBar navbar-expand-lg navbar-light ">
+      <a class="navbar-brand" href="/"><img src="../../assets/logo-full.svg" class="logo"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto" v-if="!currentUser">
+          <li class="nav-item" >
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalLong">Login</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalS">Signup</a>
+          </li>
+        
+        </ul>
+        <ul class="navbar-nav ml-auto" v-else>
+            <li class="nav-item" >
+              <a class="nav-link" href="#">{{currentUser.displayName}}</a>
+            </li>
+            <li class="nav-item" >
+              <a class="nav-link" href="#" @click.prevent="signOut">Signout</a>
+            </li> 
+        </ul>
+      </div>
+    </nav>
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>name</label>
+                        <input type="email" class="form-control" id="email" placeholder="enter email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                </form>
             </div>
-        </nav>
-        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="signIn">Sign in</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginFacebook">Facebook</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginGoogle">Google</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModalS" tabindex="-1" role="dialog" aria-labelledby="exampleModalSTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label>name</label>
-                            <input type="email" class="form-control" id="email" placeholder="enter email">
+                            <label>Name</label>
+                            <input type="text" class="form-control" id="signupName" placeholder="enter name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Surname</label>
+                            <input type="text" class="form-control" id="signupSurname" placeholder="enter surname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" id="signupEmail" placeholder="enter email" required>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control" id="password">
+                            <input type="password" class="form-control" id="signupPassword1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password confermation</label>
+                            <input type="password" class="form-control" id="signupPassword2" required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="signIn">Sign in</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="signUp">Sign up</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginFacebook">Facebook</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginGoogle">Google</button>
                 </div>
-                </div>
             </div>
         </div>
-        <div class="modal fade" id="exampleModalS" tabindex="-1" role="dialog" aria-labelledby="exampleModalSTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" class="form-control" id="signupName" placeholder="enter name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Surname</label>
-                                <input type="text" class="form-control" id="signupSurname" placeholder="enter surname" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" id="signupEmail" placeholder="enter email" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" class="form-control" id="signupPassword1" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Password confermation</label>
-                                <input type="password" class="form-control" id="signupPassword2" required>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="signUp">Sign up</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginFacebook">Facebook</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click.prevent="loginGoogle">Google</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
   </header>
 </template>
 
@@ -245,8 +248,8 @@ export default {
 
 <style lang="scss">
 .navBar {
-  padding-top: .5em;
-  padding-bottom: .5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   background-color: #fff;
   border-bottom: 1px solid #ddd;
   .logo {
