@@ -188,28 +188,53 @@ export default {
     },
     checkMeal() {
       var currentUserId = this.$store.getters.currentUser.uid;
+      var hasMeal = "";
       //   console.log(
       //     dbUsersRef.child(this.$store.getters.currentUserId).child("meals")
       //   );
       //   var ref = irebase.database().ref("users/ada");
-      dbUsersRef
-        .child(currentUserId)
-        .child("meals")
-        .once("value")
-        .then(function(snapshot) {
-          var meal = snapshot.val(); // "ada"
-          console.log(meal)
-          if (meal === 1) {
-            swal({
+      dbMealsRef.once("value").then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        var childData = childSnapshot.val();
+        
+
+        if (currentUserId == childData.userId) {
+          
+            hasMeal=1;
+         
+        }
+      });
+      if (hasMeal === 1) {
+        swal({
               title: "You have already an active meal!",
               text: "Remove the previus meal before to create a new one !",
               icon: "error",
               button: "Ok"
             });
-          } else {
-            $("#exampleModal").modal("show");
-          }
-        });
+      }
+      else {
+        $("#exampleModal").modal("show");
+      }
+    });
+      // dbUsersRef
+      //   .child(currentUserId)
+      //   .child("meals")
+      //   .once("value")
+      //   .then(function(snapshot) {
+      //     var meal = snapshot.val(); // "ada"
+      //     console.log(meal)
+      //     if (meal === 1) {
+      //       swal({
+      //         title: "You have already an active meal!",
+      //         text: "Remove the previus meal before to create a new one !",
+      //         icon: "error",
+      //         button: "Ok"
+      //       });
+      //     } else {
+      //       $("#exampleModal").modal("show");
+      //     }
+      //   });
     },
     addNewMeal() {
       this.meal.userId = this.$store.getters.currentUser.uid;
