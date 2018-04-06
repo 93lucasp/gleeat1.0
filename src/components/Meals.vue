@@ -8,7 +8,10 @@
             <a href="javascript:void(0)"  @click="checkMeal()" v-if="currentUser"> Create Meal </a>
           </div>
       </div>
-      <div class="container">
+      <div class="container" v-if="getMeals.length === 0">
+        <p>No active meals in this moment</p>
+      </div>
+      <div class="container" v-else>
         <div class="row">
             <div class="col-lg-4" v-for="meal in getMeals">
                 <div class="meal">
